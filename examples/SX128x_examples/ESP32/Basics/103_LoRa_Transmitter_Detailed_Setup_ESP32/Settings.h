@@ -5,30 +5,35 @@
   suitable for the intended purpose and free from errors.
 *******************************************************************************************************/
 
+#include <stdint.h>
+
 //*******  Setup hardware pin definitions here ! ***************
 
-//These are the pin definitions for one of my own boards, a ESP32 shield base with BBF board shield on
-//top. Be sure to change the definitions to match your own setup. Some pins such as DIO2, DIO3, BUZZER
-//may not be in used by this sketch so they do not need to be connected and should be included and be 
-//set to -1.
+#define LORA_DEVICE DEVICE_SX1280 // Semtech SX12XX device model
 
-#define NSS 5                                   //select pin on LoRa device
-#define SCK 18                                  //SCK on SPI3
-#define MISO 19                                 //MISO on SPI3 
-#define MOSI 23                                 //MOSI on SPI3 
 
-#define NRESET 27                               //reset pin on LoRa device
-#define RFBUSY 25                               //busy line
+#ifdef ARDUINO_ADAFRUIT_QTPY_ESP32S2
+    #define MISO        37      // MISO_TX (E28-2G4M12S pin 3)
+    #define MOSI        35      // MOSI_RX (E28-2G4M12S pin 4)
+    #define SCK         36      // SCK_RTSN (E28-2G4M12S pin 5)
+    #define NSS         16      // NSS_CTS (E28-2G4M12S pin 6)
 
-#define LED1 2                                  //on board LED, high for on
-#define DIO1 35                                 //DIO1 pin on LoRa device, used for RX and TX done 
-#define DIO2 -1                                 //DIO2 pin on LoRa device, normally not used so set to -1 
-#define DIO3 -1                                 //DIO3 pin on LoRa device, normally not used so set to -1
-#define RX_EN -1                                //pin for RX enable, used on some SX128X devices, set to -1 if not used
-#define TX_EN -1                                //pin for TX enable, used on some SX128X devices, set to -1 if not used 
-#define BUZZER -1                               //pin for buzzer, set to -1 if not used 
-#define VCCPOWER 14                             //pin controls power to external devices
-#define LORA_DEVICE DEVICE_SX1280               //we need to define the device we are using
+    #define NRESET      5       // NRESET (E28-2G4M12S pin 9)
+    #define RFBUSY      6       // BUSY (E28-2G4M12S pin 10)
+    #define DIO1        7       // DIO1 (E28-2G4M12S pin 11), used for RX and TX done 
+    #define DIO2        8       // DIO2 (E28-2G4M12S pin 12)
+    #define DIO3        -1      // DIO3 (E28-2G4M12S pin 13), not connected (-1)
+
+    #define RX_EN       -1      // RX enable pin (used on some SX128X devices), not used (-1)
+    #define TX_EN       -1      // TX enable pin (used on some SX128X devices), not used (-1)
+
+    #define LED1        -1      // On-board LED, high for ON
+    #define BUZZER      -1      // On-board buzzer
+    #define VCCPOWER    -1      // Enable power to external devices
+#else
+    #error "Unsupported board"
+#endif /* ARDUINO_${build.board} */
+
 
 
 //*******  Setup LoRa Parameters Here ! ***************
